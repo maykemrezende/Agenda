@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lista_alunos">
+    </ListView>
+
+    <!-- SP no text size é usado pra adequar o tamanho da fonte de acordo com as configurações de tamanho do user -->
+    <!-- elevation salta o botão da tela  e cria uma sombra, e statelistanimator = null adequa isso a androides mais antigos -->
+    <!-- DP seta o tamanho fixo -->
+
+    <Button
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:text="+"
+        android:textColor="#ffffff"
+        android:textSize="40sp"
+        android:elevation="20dp"
+        android:id="@+id/listaBtnNovoAluno"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/fundo"
+        android:stateListAnimator="@null"/>
+
+</RelativeLayout>
