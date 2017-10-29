@@ -1,10 +1,12 @@
 package com.example.mayke.agenda.modelo;
 
+import java.io.Serializable;
+
 /**
  * Created by mayke on 27/10/2017.
  */
 
-public class Aluno {
+public class Aluno implements Serializable {
     private Long id;
     private String nome;
     private String endereco;

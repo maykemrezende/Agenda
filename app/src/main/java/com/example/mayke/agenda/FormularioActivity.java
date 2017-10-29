@@ -26,7 +26,16 @@ public class FormularioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
 
+        //funciona como um view model, passando os dados do modelo para a view
         formularioHelper = new Formulario(this);
+
+        //recupera o objeto passado pela outra activity
+        Intent intent = getIntent();
+        Aluno aluno = (Aluno) intent.getSerializableExtra("aluno");
+
+        if (aluno != null){
+            formularioHelper.preencheFormulario(aluno);
+        }
 
     }
 
@@ -53,8 +62,14 @@ public class FormularioActivity extends AppCompatActivity {
             case R.id.menu_formulario_ok:
 
                 Aluno aluno = formularioHelper.getAluno();
+
                 AlunoDAO alunoDAO = new AlunoDAO(this);
-                alunoDAO.insere(aluno);
+
+                if (aluno.getId() != null){
+                    alunoDAO.altera(aluno);
+                } else {
+                    alunoDAO.insere(aluno);
+                }
 
                 Toast.makeText(FormularioActivity.this, "Aluno ".concat(aluno.getNome()).concat(" foi salvo!"), Toast.LENGTH_SHORT).show();
 

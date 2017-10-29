@@ -16,16 +16,18 @@ public class Formulario {
     private final EditText campoSite;
     private final RatingBar campoRatingAluno;
 
+    private Aluno aluno;
+
     public Formulario(FormularioActivity activity){
         campoNome = (EditText) activity.findViewById(R.id.formularioNome);
         campoEndereco = (EditText) activity.findViewById(R.id.formularioEndereco);
         campoTelefone = (EditText) activity.findViewById(R.id.formularioTelefone);
         campoSite = (EditText) activity.findViewById(R.id.formularioSite);
         campoRatingAluno = (RatingBar) activity.findViewById(R.id.formularioNota);
+        aluno = new Aluno();
     }
 
     public Aluno getAluno() {
-        Aluno aluno = new Aluno();
         aluno.setNome(campoNome.getText().toString());
         aluno.setEndereco(campoEndereco.getText().toString());
         aluno.setTelefone(campoTelefone.getText().toString());
@@ -33,5 +35,14 @@ public class Formulario {
         aluno.setNota(Double.valueOf((campoRatingAluno.getProgress())));
 
         return aluno;
+    }
+
+    public void preencheFormulario(Aluno aluno) {
+        campoNome.setText(aluno.getNome());
+        campoEndereco.setText(aluno.getEndereco());
+        campoTelefone.setText(aluno.getTelefone());
+        campoSite.setText(aluno.getSite());
+        campoRatingAluno.setProgress(aluno.getNota().intValue());
+        this.aluno = aluno;
     }
 }

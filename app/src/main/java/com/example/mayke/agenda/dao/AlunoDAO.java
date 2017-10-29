@@ -36,12 +36,7 @@ public class AlunoDAO extends SQLiteOpenHelper{
     public void insere(Aluno aluno) {
         SQLiteDatabase db = getWritableDatabase();
 
-        ContentValues dados = new ContentValues();
-        dados.put("nome", aluno.getNome());
-        dados.put("endereco", aluno.getEndereco());
-        dados.put("telefone", aluno.getTelefone());
-        dados.put("site", aluno.getSite());
-        dados.put("nota", aluno.getNota());
+        ContentValues dados = getDadosAluno(aluno);
 
         db.insert("alunos", null, dados);
 
@@ -50,8 +45,27 @@ public class AlunoDAO extends SQLiteOpenHelper{
         }
     }
 
+    public void deleta(Aluno aluno) {
+        //bd que possa ser alterado
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] params = {aluno.getId().toString()};
+        db.delete("Alunos", "id = ?", params);
+
+        db.close();
+    }
+
+    public void altera(Aluno aluno) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues dados = getDadosAluno(aluno);
+
+        String[] params = {aluno.getId().toString()};
+        db.update("Alunos", dados, "id = ?", params);
+    }
+
     public List<Aluno> buscaAlunos() {
         String sql = "SELECT * FROM alunos order by nome";
+        //bd q possa ser lido
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(sql, null);
 
@@ -78,5 +92,16 @@ public class AlunoDAO extends SQLiteOpenHelper{
 
 
         return alunos;
+    }
+
+    private ContentValues getDadosAluno(Aluno aluno) {
+        ContentValues dados = new ContentValues();
+        dados.put("nome", aluno.getNome());
+        dados.put("endereco", aluno.getEndereco());
+        dados.put("telefone", aluno.getTelefone());
+        dados.put("site", aluno.getSite());
+        dados.put("nota", aluno.getNota());
+
+        return dados;
     }
 }
