@@ -75,6 +75,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
         //essa forma de intent é a intent explícita
         //Intent intentSite = new Intent(ListaAlunosActivity.this, Browser.class);
 
+        //acessar site
         String site = aluno.getSite();
         if (!site.startsWith("http://") && (!site.startsWith("https://"))){
             StringBuilder siteString = new StringBuilder();
