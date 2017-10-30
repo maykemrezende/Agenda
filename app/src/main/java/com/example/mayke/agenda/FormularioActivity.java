@@ -1,6 +1,8 @@
 package com.example.mayke.agenda;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.example.mayke.agenda.dao.AlunoDAO;
 import com.example.mayke.agenda.modelo.Aluno;
 
+import java.io.File;
 import java.util.zip.Inflater;
 
 public class FormularioActivity extends AppCompatActivity {
@@ -37,6 +40,21 @@ public class FormularioActivity extends AppCompatActivity {
             formularioHelper.preencheFormulario(aluno);
         }
 
+        clickBtnFoto();
+    }
+
+    private void clickBtnFoto() {
+        Button btnFoto = findViewById(R.id.formularioBtnFoto);
+        btnFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                String caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+                File arquivoFoto = new File(caminhoFoto);
+                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+                startActivity(intentCamera);
+            }
+        });
     }
 
     //método que define quais itens ficam na action bar do menu
