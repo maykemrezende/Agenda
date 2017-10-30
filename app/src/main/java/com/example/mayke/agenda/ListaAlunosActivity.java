@@ -83,7 +83,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
                         != PackageManager.PERMISSION_GRANTED) {
                     //se não tiver permissão, pede ao usuário
                     // usar requestPermission sempre que quiser pedir uma permissão ao user
-                    // request code serve pra diferenciar a permissão no método onRequestPermissionsResult
+                    // request code serve pra diferenciar a permissão no método onRequestPermissionsResult, se é pra acessar ligação, enviar sms, acessar gps
                     ActivityCompat.requestPermissions(ListaAlunosActivity.this,
                             new String[]{Manifest.permission.CALL_PHONE}, 123);
                 } else {
