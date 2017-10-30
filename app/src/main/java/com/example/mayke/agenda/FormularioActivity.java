@@ -13,21 +13,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.example.mayke.agenda.dao.AlunoDAO;
+import com.example.mayke.agenda.helper.FormularioHelper;
 import com.example.mayke.agenda.modelo.Aluno;
 
 import java.io.File;
-import java.util.zip.Inflater;
 
 public class FormularioActivity extends AppCompatActivity {
 
     public static final int CODIGO_CAMERA = 567;
-    private Formulario formularioHelper;
+    private FormularioHelper formularioHelper;
     private String caminhoFoto;
 
     @Override
@@ -36,7 +34,7 @@ public class FormularioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_formulario);
 
         //funciona como um view model, passando os dados do modelo para a view
-        formularioHelper = new Formulario(this);
+        formularioHelper = new FormularioHelper(this);
 
         //recupera o objeto passado pela outra activity
         Intent intent = getIntent();
@@ -68,11 +66,7 @@ public class FormularioActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) { //para o caso do candango resolver cancelar a ação de tirar a foto
             if (requestCode == CODIGO_CAMERA) {
-                ImageView foto = (ImageView) findViewById(R.id.formularioFoto);
-                Bitmap bitmapFoto = BitmapFactory.decodeFile(caminhoFoto);
-                Bitmap bitmapFotoReduzido = Bitmap.createScaledBitmap(bitmapFoto, 300, 300, true);
-                foto.setImageBitmap(bitmapFotoReduzido);
-                foto.setScaleType(ImageView.ScaleType.FIT_XY);
+               formularioHelper.carregaImagem(caminhoFoto);
             }
         }
     }
