@@ -1,8 +1,12 @@
 package com.example.mayke.agenda;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Browser;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -69,6 +73,45 @@ public class ListaAlunosActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         //devolve o aluno na posição segurada do menu de contexto
         final Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
+
+        //********************** LIGAÇÃO ************************************
+        MenuItem itemLigacao = menu.add("Ligar");
+        itemLigacao.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                if (ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    //se não tiver permissão, pede ao usuário
+                    // usar requestPermission sempre que quiser pedir uma permissão ao user
+                    // request code serve pra diferenciar a permissão no método onRequestPermissionsResult
+                    ActivityCompat.requestPermissions(ListaAlunosActivity.this,
+                            new String[]{Manifest.permission.CALL_PHONE}, 123);
+                } else {
+
+                    Intent intentLigar = new Intent(Intent.ACTION_CALL);
+                    intentLigar.setData(Uri.parse("tel:".concat(aluno.getTelefone())));
+                    startActivity(intentLigar);
+                }
+                return false;
+            }
+        });
+
+
+        //*********************** VISUALIZAR MAPA ****************************
+        MenuItem itemMapa = menu.add("Visualizar no mapa");
+        Intent intentMapa = new Intent(Intent.ACTION_VIEW);
+        intentMapa.setData(Uri.parse("geo:0,0?q=".concat(aluno.getEndereco())));
+        itemMapa.setIntent(intentMapa);
+
+
+        //*********************** ENVIAR SMS **********************************
+        MenuItem itemSMS = menu.add("Enviar SMS");
+        Intent intentSMS = new Intent(Intent.ACTION_VIEW);
+        intentSMS.setData(Uri.parse("sms:".concat(aluno.getTelefone())));
+        itemSMS.setIntent(intentSMS);
+
+        //************************* VISITAR SITE *****************************
+
         //cria o item do menu dessa forma, em vez de criar pelo xml
         MenuItem itemSite = menu.add("Visitar site");
 
@@ -89,6 +132,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
         intentSite.setData(Uri.parse(site));
         //setIntent não deixa ser preciso criar um listener pra criar um intent
         itemSite.setIntent(intentSite);
+
+        //******************************** EXCLUIR ALUNO ***************************************
 
         MenuItem excluirAluno = menu.add("Excluir");
         excluirAluno.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
