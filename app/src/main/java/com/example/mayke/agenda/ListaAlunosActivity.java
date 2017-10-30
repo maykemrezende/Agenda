@@ -1,6 +1,8 @@
 package com.example.mayke.agenda;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Browser;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -47,6 +49,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 Intent intentVaiProFormAlteracao = new Intent(ListaAlunosActivity.this, FormularioActivity.class);
 
                 //envia os dados para outra activity, pra enviar o objeto a classe precisa ter "implements serializable"
+                //putExtra envia informações não obrigatórias
                 intentVaiProFormAlteracao.putExtra("aluno", aluno);
                 startActivity(intentVaiProFormAlteracao);
             }
@@ -63,14 +66,33 @@ public class ListaAlunosActivity extends AppCompatActivity {
     //menu de contexto é aquele que clica e segura em algum item
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        //devolve o aluno na posição segurada do menu de contexto
+        final Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
         //cria o item do menu dessa forma, em vez de criar pelo xml
+        MenuItem itemSite = menu.add("Visitar site");
+
+        //essa forma de intent é a intent explícita
+        //Intent intentSite = new Intent(ListaAlunosActivity.this, Browser.class);
+
+        String site = aluno.getSite();
+        if (!site.startsWith("http://") && (!site.startsWith("https://"))){
+            StringBuilder siteString = new StringBuilder();
+            siteString.append("http://");
+            siteString.append(site);
+            site = siteString.toString();
+        }
+
+        //Intent implícita
+        Intent intentSite = new Intent(Intent.ACTION_VIEW);
+        intentSite.setData(Uri.parse(site));
+        //setIntent não deixa ser preciso criar um listener pra criar um intent
+        itemSite.setIntent(intentSite);
+
         MenuItem excluirAluno = menu.add("Excluir");
         excluirAluno.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                //devolve o aluno na posição segurada do menu de contexto
-                Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(info.position);
 
                 AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
                 dao.deleta(aluno);
