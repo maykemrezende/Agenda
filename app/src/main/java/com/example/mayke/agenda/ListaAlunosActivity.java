@@ -161,8 +161,12 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         //findviewbyid traz uma referência de um item do xml de layout a partir de um id
 
-        //Adapter para adicionar o array e usá-lo na view, pq ele converte de string para view
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
+        //Adapter para transformar os dados de cada item do dataset em uma view e colocar no listview
+        //Adapter antigo pegava um objeto e transformava em uma string usando um layout básico do android
+        //Criado adapter específico para pegar os dados do modelo Aluno e criar a view para cada item desse modelo,
+        //pq foi criado um layout específico (list_item.xml) para cada item da lista
+
+        AlunosAdapter adapter = new AlunosAdapter(this, alunos);
         listaAlunos.setAdapter(adapter);
     }
 
