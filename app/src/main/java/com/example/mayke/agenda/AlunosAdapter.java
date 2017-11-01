@@ -1,9 +1,13 @@
 package com.example.mayke.agenda;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mayke.agenda.modelo.Aluno;
@@ -41,9 +45,35 @@ public class AlunosAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView view = new TextView(context);
         Aluno aluno = alunos.get(position);
-        view.setText(aluno.toString());
+
+        //convertview não deixa instanciar a view sempre, ele reaproveita
+
+        View view = convertView;
+
+        if (view == null) {
+            //inflater transforma o xml em uma view
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(R.layout.list_item, parent, false);
+        }
+
+        //busca o campo nome dentro da view inflada pelo list_item.xml, pq o campo está nesse xml e não em outro
+        TextView campoNome = view.findViewById(R.id.itemNome);
+        TextView campoTelefone = view.findViewById(R.id.itemTelefone);
+        ImageView campoFoto = view.findViewById(R.id.itemFoto);
+
+        campoNome.setText(aluno.getNome());
+        campoTelefone.setText(aluno.getTelefone());
+
+        String caminhoFoto = aluno.getCaminhoFoto();
+
+        if (caminhoFoto != null) {
+            //tratamento de adicionar a foto ao ImageView
+            Bitmap bitmapFoto = BitmapFactory.decodeFile(caminhoFoto);
+            Bitmap bitmapFotoReduzido = Bitmap.createScaledBitmap(bitmapFoto, 100, 100, true);
+            campoFoto.setImageBitmap(bitmapFotoReduzido);
+            campoFoto.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
 
         return view;
     }
