@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.mayke.agenda.converter.AlunoConverter;
 import com.example.mayke.agenda.dao.AlunoDAO;
 import com.example.mayke.agenda.modelo.Aluno;
 
@@ -148,6 +149,29 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_lista_alunos, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_enviar_notas:
+                AlunoDAO dao = new AlunoDAO(this);
+                List<Aluno> alunos = dao.buscaAlunos();
+
+                AlunoConverter conversorAluno = new AlunoConverter();
+                String alunosJSON = conversorAluno.converterParaJSON(alunos);
+
+                Toast.makeText(this, alunosJSON, Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
