@@ -47,13 +47,14 @@ public class AlunosAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         Aluno aluno = alunos.get(position);
 
+        //inflater transforma o xml em uma view
+        LayoutInflater inflater = LayoutInflater.from(context);
+
         //convertview não deixa instanciar a view sempre, ele reaproveita
 
         View view = convertView;
 
         if (view == null) {
-            //inflater transforma o xml em uma view
-            LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.list_item, parent, false);
         }
 
