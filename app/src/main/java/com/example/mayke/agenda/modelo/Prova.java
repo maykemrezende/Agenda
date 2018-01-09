@@ -1,12 +1,13 @@
 package com.example.mayke.agenda.modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by mayke on 08/12/2017.
  */
 
-public class Prova {
+public class Prova implements Serializable{
     private String materia;
     private String data;
     private List<String> topicos;
