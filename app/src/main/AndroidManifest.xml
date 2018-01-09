@@ -31,7 +31,8 @@
         </receiver>
 
         <activity android:name=".ProvasActivity" />
-        <activity android:name=".DetalhesProvaActivity"></activity>
+        <activity android:name=".DetalhesProvaActivity" />
+        <activity android:name=".ProvasTabletActivity"></activity>
     </application>
 
 </manifest>
