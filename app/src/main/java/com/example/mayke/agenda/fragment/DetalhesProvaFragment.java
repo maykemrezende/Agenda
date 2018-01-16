@@ -1,4 +1,4 @@
-package com.example.mayke.agenda;
+package com.example.mayke.agenda.fragment;
 
 
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.mayke.agenda.R;
 import com.example.mayke.agenda.modelo.Prova;
 
 

@@ -1,21 +1,13 @@
 package com.example.mayke.agenda;
 
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
+import com.example.mayke.agenda.fragment.DetalhesProvaFragment;
+import com.example.mayke.agenda.fragment.ListaProvasFragment;
 import com.example.mayke.agenda.modelo.Prova;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class ProvasActivity extends AppCompatActivity {
 
@@ -42,6 +34,8 @@ public class ProvasActivity extends AppCompatActivity {
     }
 
     public void selecionaProva(Prova prova) {
+        //no modo paisagem, frame principal é o da direita e o secundário, o da esquerda
+        //ambos são fragments
 
         FragmentManager manager = getSupportFragmentManager();
 
@@ -55,6 +49,8 @@ public class ProvasActivity extends AppCompatActivity {
             detalhesProvaFragment.setArguments(parametros);
 
             tx.replace(R.id.frame_principal, detalhesProvaFragment);
+            tx.addToBackStack(null); //null marca o identificador do fragment na pilha para voltar pra ele em algum momento
+
             tx.commit();
         } else {
             DetalhesProvaFragment detalhesFragment =
