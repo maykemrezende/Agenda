@@ -1,6 +1,7 @@
 package com.example.mayke.agenda;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -38,5 +39,28 @@ public class ProvasActivity extends AppCompatActivity {
     private boolean estaNoModoPaisagem() {
         //oram criados dois arquivos bools.xml na pasta values para definir se está no modo paisagem ou não
         return getResources().getBoolean(R.bool.modoPaisagem);
+    }
+
+    public void selecionaProva(Prova prova) {
+
+        FragmentManager manager = getSupportFragmentManager();
+
+        if (!estaNoModoPaisagem()) {
+            FragmentTransaction tx = manager.beginTransaction();
+
+            DetalhesProvaFragment detalhesProvaFragment = new DetalhesProvaFragment();
+            Bundle parametros = new Bundle();
+            parametros.putSerializable("prova", prova);
+
+            detalhesProvaFragment.setArguments(parametros);
+
+            tx.replace(R.id.frame_principal, detalhesProvaFragment);
+            tx.commit();
+        } else {
+            DetalhesProvaFragment detalhesFragment =
+                    (DetalhesProvaFragment) manager.findFragmentById(R.id.frame_secundario);
+
+            detalhesFragment.PopulaCamposCom(prova);
+        }
     }
 }

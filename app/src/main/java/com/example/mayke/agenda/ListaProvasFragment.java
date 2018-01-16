@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,10 +55,10 @@ public class ListaProvasFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Prova prova = (Prova) parent.getItemAtPosition(position);
                 Toast.makeText(getContext(), "Clicou na prova de ".concat(prova.getMateria()), Toast.LENGTH_SHORT).show();
-                Intent vaiParaDetalhes = new Intent(getContext(), DetalhesProvaActivity.class);
-                vaiParaDetalhes.putExtra("prova", prova);
 
-                startActivity(vaiParaDetalhes);
+                //utiliza o fragment
+                ProvasActivity provasActivity = (ProvasActivity) getActivity();
+                provasActivity.selecionaProva(prova);
             }
         });
 

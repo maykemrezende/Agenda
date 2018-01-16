@@ -22,22 +22,22 @@
                 android:id="@+id/detalhes_prova_materia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Matéria"
                 android:layout_margin="16dp"
+                android:text="Matéria"
                 android:textColor="#fff"
-                android:textStyle="bold"
-                android:textSize="22sp"/>
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/detalhes_prova_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Data"
                 android:layout_alignParentRight="true"
                 android:layout_margin="16dp"
+                android:text="Data"
                 android:textColor="#fff"
-                android:textStyle="bold"
-                android:textSize="22sp"/>
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
