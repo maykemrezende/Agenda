@@ -100,35 +100,39 @@ public class FormularioActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.menu_formulario_ok:
 
-                Aluno aluno = formularioHelper.getAluno();
-
-                AlunoDAO alunoDAO = new AlunoDAO(this);
-
-                if (aluno.getId() != null){
-                    alunoDAO.altera(aluno);
-                } else {
-                    alunoDAO.insere(aluno);
-                }
-
-                //new InsereAlunoTask(aluno).execute();
-                Call call = new RetrofitInicializador().getAlunoService().insereAluno(aluno);
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onResponse(Call call, Response response) {
-                        Log.i("onResponse", "Requisição com sucesso");
-                    }
-
-                    @Override
-                    public void onFailure(Call call, Throwable t) {
-                        Log.i("onFailure", "Requisição falhou");
-                    }
-                });
-
-                Toast.makeText(FormularioActivity.this, "Aluno ".concat(aluno.getNome()).concat(" foi salvo!"), Toast.LENGTH_SHORT).show();
+                TrataAluno();
 
                 //mata a atual activity e volta para a anterior
                 finish();
                 break;
         }
+    }
+
+    private void TrataAluno() {
+        Aluno aluno = formularioHelper.getAluno();
+
+        AlunoDAO alunoDAO = new AlunoDAO(this);
+
+        if (aluno.getId() != null){
+            alunoDAO.altera(aluno);
+        } else {
+            alunoDAO.insere(aluno);
+        }
+
+        //new InsereAlunoTask(aluno).execute();
+        Call call = new RetrofitInicializador().getAlunoService().insereAluno(aluno);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Log.i("onResponse", "Requisição com sucesso");
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.i("onFailure", "Requisição falhou");
+            }
+        });
+
+        Toast.makeText(FormularioActivity.this, "Aluno ".concat(aluno.getNome()).concat(" foi salvo!"), Toast.LENGTH_SHORT).show();
     }
 }

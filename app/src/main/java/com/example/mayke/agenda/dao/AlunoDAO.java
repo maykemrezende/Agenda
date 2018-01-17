@@ -45,7 +45,8 @@ public class AlunoDAO extends SQLiteOpenHelper{
 
         ContentValues dados = getDadosAluno(aluno);
 
-        db.insert("alunos", null, dados);
+        long idAluno = db.insert("alunos", null, dados);
+        aluno.setId(idAluno);
 
         if (db.isOpen()) {
             db.close();

@@ -20,8 +20,9 @@ public class InsereAlunoTask extends AsyncTask{
 
     @Override
     protected Object doInBackground(Object[] objects) {
-        String alunoJson = new AlunoConverter().converterParaJSONCompleto(aluno);
-        new WebClient().insereAluno(alunoJson);
+        /*String alunoJson = new AlunoConverter().converterParaJSONCompleto(aluno);
+        new WebClient().insereAluno(alunoJson);*/
         return null;
+
     }
 }
