@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.android.support:mediarouter-v7:27.0.2'
     implementation 'com.google.android.gms:play-services:11.8.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.2'
     implementation 'com.squareup.retrofit2:converter-jackson:2.1.0'
     implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support.test:runner:1.0.2-alpha1'
