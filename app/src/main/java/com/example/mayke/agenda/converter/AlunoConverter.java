@@ -33,7 +33,7 @@ public class AlunoConverter {
         return js.toString();
     }
 
-    public String converterParaJSONCompleto(Aluno aluno) {
+    /*public String converterParaJSONCompleto(Aluno aluno) {
         JSONStringer js = new JSONStringer();
 
         try {
@@ -45,10 +45,10 @@ public class AlunoConverter {
                     .key("nota").value(aluno.getNota())
                     .endObject();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return js.toString();
-    }
+    }*/
 }

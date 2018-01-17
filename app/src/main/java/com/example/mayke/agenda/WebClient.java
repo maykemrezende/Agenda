@@ -23,11 +23,11 @@ public class WebClient {
         return conecta(json, stringURL);
     }
 
-    public void insereAluno(String alunoJson) {
+    /*public void insereAluno(String alunoJson) {
         String stringURL = "ip da maquina:8080/api/aluno";
 
         conecta(alunoJson, stringURL);
-    }
+    }*/
 
     @Nullable
     private String conecta(String json, String stringURL) {
