@@ -1,5 +1,7 @@
 package com.example.mayke.agenda;
 
+import android.support.annotation.Nullable;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
@@ -12,9 +14,25 @@ import java.util.Scanner;
  */
 
 public class WebClient {
+
+    private URL url;
+
     public String post(String json){
+        String stringURL = "https://www.caelum.com.br/mobile";
+
+        return conecta(json, stringURL);
+    }
+
+    public void insereAluno(String alunoJson) {
+        String stringURL = "ip da maquina:8080/api/aluno";
+
+        conecta(alunoJson, stringURL);
+    }
+
+    @Nullable
+    private String conecta(String json, String stringURL) {
         try {
-            URL url = new URL("https://www.caelum.com.br/mobile");
+            url = new URL(stringURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Content-type", "application/json");
             connection.setRequestProperty("Accept", "application/json");

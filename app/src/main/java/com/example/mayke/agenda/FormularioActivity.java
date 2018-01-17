@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.mayke.agenda.dao.AlunoDAO;
 import com.example.mayke.agenda.helper.FormularioHelper;
 import com.example.mayke.agenda.modelo.Aluno;
+import com.example.mayke.agenda.tasks.InsereAlunoTask;
 
 import java.io.File;
 
@@ -102,6 +103,8 @@ public class FormularioActivity extends AppCompatActivity {
                 } else {
                     alunoDAO.insere(aluno);
                 }
+
+                new InsereAlunoTask(aluno).execute();
 
                 Toast.makeText(FormularioActivity.this, "Aluno ".concat(aluno.getNome()).concat(" foi salvo!"), Toast.LENGTH_SHORT).show();
 
