@@ -4,6 +4,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
+import com.example.mayke.agenda.Localizador;
 import com.example.mayke.agenda.dao.AlunoDAO;
 import com.example.mayke.agenda.modelo.Aluno;
 import com.google.android.gms.maps.CameraUpdate;
@@ -52,6 +53,8 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
                 googleMap.addMarker(pininhoDoAluno);
             }
         }
+
+        new Localizador(getContext(), googleMap);
     }
 
     private LatLng PegaCoordenadaDoEndereco(String endereco) {
