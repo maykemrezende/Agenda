@@ -24,7 +24,7 @@ public class WebClient {
     }
 
     public void insereAluno(String alunoJson) {
-        String stringURL = "http://192.168.0.104:8080/api/aluno";
+        String stringURL = "ip da maquina:8080/api/aluno";
 
         conecta(alunoJson, stringURL);
     }

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,9 +20,14 @@ import android.widget.Toast;
 import com.example.mayke.agenda.dao.AlunoDAO;
 import com.example.mayke.agenda.helper.FormularioHelper;
 import com.example.mayke.agenda.modelo.Aluno;
+import com.example.mayke.agenda.retrofit.RetrofitInicializador;
 import com.example.mayke.agenda.tasks.InsereAlunoTask;
 
 import java.io.File;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FormularioActivity extends AppCompatActivity {
 
@@ -104,7 +110,19 @@ public class FormularioActivity extends AppCompatActivity {
                     alunoDAO.insere(aluno);
                 }
 
-                new InsereAlunoTask(aluno).execute();
+                //new InsereAlunoTask(aluno).execute();
+                Call call = new RetrofitInicializador().getAlunoService().insereAluno(aluno);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        Log.i("onResponse", "Requisição com sucesso");
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Log.i("onFailure", "Requisição falhou");
+                    }
+                });
 
                 Toast.makeText(FormularioActivity.this, "Aluno ".concat(aluno.getNome()).concat(" foi salvo!"), Toast.LENGTH_SHORT).show();
 
