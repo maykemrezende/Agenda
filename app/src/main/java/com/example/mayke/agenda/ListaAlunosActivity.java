@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -181,6 +182,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
     private void CarregaLista() {
         AlunoDAO alunoDAO = new AlunoDAO(this);
         List<Aluno> alunos = alunoDAO.buscaAlunos();
+
+        for (Aluno aluno :
+             alunos) {
+            Log.i("id do aluno", String.valueOf(aluno.getId()));
+        }
 
         //findviewbyid traz uma referência de um item do xml de layout a partir de um id
 
