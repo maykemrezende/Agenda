@@ -80,6 +80,7 @@ public class AlunoDAO extends SQLiteOpenHelper{
 
     public void insere(Aluno aluno) {
         SQLiteDatabase db = getWritableDatabase();
+        aluno.setId(geraUUID());
 
         ContentValues dados = getDadosAluno(aluno);
 
@@ -149,6 +150,7 @@ public class AlunoDAO extends SQLiteOpenHelper{
 
     private ContentValues getDadosAluno(Aluno aluno) {
         ContentValues dados = new ContentValues();
+        dados.put("id", aluno.getId());
         dados.put("nome", aluno.getNome());
         dados.put("endereco", aluno.getEndereco());
         dados.put("telefone", aluno.getTelefone());
