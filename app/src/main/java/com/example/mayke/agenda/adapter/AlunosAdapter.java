@@ -41,7 +41,8 @@ public class AlunosAdapter extends BaseAdapter{
 
     @Override
     public long getItemId(int position) {
-        return alunos.get(position).getId();
+        //return alunos.get(position).getId();
+        return 0;
     }
 
     @Override

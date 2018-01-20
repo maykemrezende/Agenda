@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import com.example.mayke.agenda.modelo.Aluno;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by mayke on 27/10/2017.
@@ -17,7 +19,7 @@ import java.util.List;
 
 public class AlunoDAO extends SQLiteOpenHelper{
     public AlunoDAO(Context context) {
-        super(context, "Agenda", null, 3);
+        super(context, "Agenda", null, 4);
     }
 
     @Override
@@ -42,25 +44,38 @@ public class AlunoDAO extends SQLiteOpenHelper{
                         "(id CHAR(36) PRIMARY KEY," +
                         "nome TEXT NOT NULL, endereco TEXT, " +
                         "telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT);";
-
                 db.execSQL(tabelaNova);
 
                 String insertAlunosTabelaNova = "INSERT INTO alunos_novo " +
                         "(id, nome, endereco, telefone, site, nota, caminhoFoto) " +
                         "SELECT id, nome, endereco, telefone, site, nota, caminhoFoto " +
                         "FROM alunos";
-
                 db.execSQL(insertAlunosTabelaNova);
 
                 String excluiTabelaAntiga = "DROP TABLE alunos";
-
                 db.execSQL(excluiTabelaAntiga);
 
                 String alteraNomeTabelaNova = "ALTER TABLE alunos_novo " +
                         "RENAME TO alunos";
-
                 db.execSQL(alteraNomeTabelaNova);
+
+            case 3:
+                String buscaAlunos = "SELECT * FROM alunos";
+                Cursor cursor = db.rawQuery(buscaAlunos, null);
+
+                List<Aluno> alunos = PopulaAlunos(cursor);
+
+                String atualizaIdAluno = "UPDATE alunos SET id = ? WHERE id = ?";
+
+                for (Aluno aluno:
+                     alunos) {
+                    db.execSQL(atualizaIdAluno, new String[]{geraUUID(), aluno.getId()});
+                }
         }
+    }
+
+    private String geraUUID() {
+        return UUID.randomUUID().toString();
     }
 
     public void insere(Aluno aluno) {
@@ -68,8 +83,8 @@ public class AlunoDAO extends SQLiteOpenHelper{
 
         ContentValues dados = getDadosAluno(aluno);
 
-        long idAluno = db.insert("alunos", null, dados);
-        aluno.setId(idAluno);
+        db.insert("alunos", null, dados);
+        //aluno.setId(idAluno);
 
         if (db.isOpen()) {
             db.close();
@@ -100,20 +115,7 @@ public class AlunoDAO extends SQLiteOpenHelper{
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(sql, null);
 
-        List<Aluno> alunos = new ArrayList<Aluno>();
-        while (c.moveToNext()){
-            Aluno aluno = new Aluno();
-
-            aluno.setId((c.getLong(c.getColumnIndex("id"))));
-            aluno.setNome((c.getString(c.getColumnIndex("nome"))));
-            aluno.setEndereco((c.getString(c.getColumnIndex("endereco"))));
-            aluno.setTelefone((c.getString(c.getColumnIndex("telefone"))));
-            aluno.setSite((c.getString(c.getColumnIndex("site"))));
-            aluno.setNota((c.getDouble(c.getColumnIndex("nota"))));
-            aluno.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
-
-            alunos.add(aluno);
-        }
+        List<Aluno> alunos = PopulaAlunos(c);
         if (!c.isClosed()) {
             c.close();
         }
@@ -123,6 +125,25 @@ public class AlunoDAO extends SQLiteOpenHelper{
         }
 
 
+        return alunos;
+    }
+
+    @NonNull
+    private List<Aluno> PopulaAlunos(Cursor c) {
+        List<Aluno> alunos = new ArrayList<Aluno>();
+        while (c.moveToNext()){
+            Aluno aluno = new Aluno();
+
+            aluno.setId((c.getString(c.getColumnIndex("id"))));
+            aluno.setNome((c.getString(c.getColumnIndex("nome"))));
+            aluno.setEndereco((c.getString(c.getColumnIndex("endereco"))));
+            aluno.setTelefone((c.getString(c.getColumnIndex("telefone"))));
+            aluno.setSite((c.getString(c.getColumnIndex("site"))));
+            aluno.setNota((c.getDouble(c.getColumnIndex("nota"))));
+            aluno.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
+
+            alunos.add(aluno);
+        }
         return alunos;
     }
 
