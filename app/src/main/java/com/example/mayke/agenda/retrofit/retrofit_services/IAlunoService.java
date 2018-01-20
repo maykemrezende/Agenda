@@ -1,5 +1,6 @@
 package com.example.mayke.agenda.retrofit.retrofit_services;
 
+import com.example.mayke.agenda.dto.AlunoSync;
 import com.example.mayke.agenda.modelo.Aluno;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface IAlunoService {
     Call<Void> insereAluno(@Body Aluno aluno);
 
     @GET("aluno")
-    Call<List<Aluno>> listaAlunos();
+    Call<AlunoSync> listaAlunos();
 }

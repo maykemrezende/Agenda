@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.example.mayke.agenda.adapter.AlunosAdapter;
 import com.example.mayke.agenda.dao.AlunoDAO;
+import com.example.mayke.agenda.dto.AlunoSync;
 import com.example.mayke.agenda.modelo.Aluno;
 import com.example.mayke.agenda.retrofit.RetrofitInicializador;
 
@@ -73,18 +74,19 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     private void CarregaListaAlunosServidor() {
-        Call<List<Aluno>> call = new RetrofitInicializador().getAlunoService().listaAlunos();
-        call.enqueue(new Callback<List<Aluno>>() {
+        Call<AlunoSync> call = new RetrofitInicializador().getAlunoService().listaAlunos();
+        call.enqueue(new Callback<AlunoSync>() {
             @Override
-            public void onResponse(Call<List<Aluno>> call, Response<List<Aluno>> response) {
-                List<Aluno> alunos = response.body();//body devolve o generics que estamos esperando que o servidor devolva. Ou seja, nesse caso, a lista de alunos
+            public void onResponse(Call<AlunoSync> call, Response<AlunoSync> response) {
+                AlunoSync alunoSync = response.body();//body devolve o generics que estamos esperando que o servidor devolva. Ou seja, nesse caso, a lista de alunos
                 AlunoDAO alunoDAO = new AlunoDAO(ListaAlunosActivity.this);
-                alunoDAO.insere(alunos);
+                alunoDAO.SincronizaAlunosDoServidor(alunoSync.getAlunos());
+                CarregaLista();
             }
 
             @Override
-            public void onFailure(Call<List<Aluno>> call, Throwable t) {
-
+            public void onFailure(Call<AlunoSync> call, Throwable t) {
+                Log.e("onFailure chamado", t.getMessage());
             }
         });
     }
