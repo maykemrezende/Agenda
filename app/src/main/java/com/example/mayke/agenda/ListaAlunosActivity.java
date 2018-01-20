@@ -19,8 +19,13 @@ import android.widget.ListView;
 import com.example.mayke.agenda.adapter.AlunosAdapter;
 import com.example.mayke.agenda.dao.AlunoDAO;
 import com.example.mayke.agenda.modelo.Aluno;
+import com.example.mayke.agenda.retrofit.RetrofitInicializador;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
@@ -62,7 +67,26 @@ public class ListaAlunosActivity extends AppCompatActivity {
     protected void onResume() {
         CarregaLista();
 
+        CarregaListaAlunosServidor();
+
         super.onResume();
+    }
+
+    private void CarregaListaAlunosServidor() {
+        Call<List<Aluno>> call = new RetrofitInicializador().getAlunoService().listaAlunos();
+        call.enqueue(new Callback<List<Aluno>>() {
+            @Override
+            public void onResponse(Call<List<Aluno>> call, Response<List<Aluno>> response) {
+                List<Aluno> alunos = response.body();//body devolve o generics que estamos esperando que o servidor devolva. Ou seja, nesse caso, a lista de alunos
+                AlunoDAO alunoDAO = new AlunoDAO(ListaAlunosActivity.this);
+                alunoDAO.insere(alunos);
+            }
+
+            @Override
+            public void onFailure(Call<List<Aluno>> call, Throwable t) {
+
+            }
+        });
     }
 
     //menu de contexto é aquele que clica e segura em algum item

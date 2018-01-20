@@ -172,4 +172,8 @@ public class AlunoDAO extends SQLiteOpenHelper{
 
         return resultados > 0;
     }
+
+    public void insere(List<Aluno> alunos) {
+
+    }
 }
