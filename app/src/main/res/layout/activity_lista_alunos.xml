@@ -7,11 +7,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_lista_aluno"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lista_alunos">
-    </ListView>
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lista_alunos">
+        </ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <!-- SP no text size é usado pra adequar o tamanho da fonte de acordo com as configurações de tamanho do user -->
     <!-- elevation salta o botão da tela  e cria uma sombra, e statelistanimator = null adequa isso a androides mais antigos -->

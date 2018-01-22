@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ import retrofit2.Response;
 public class ListaAlunosActivity extends AppCompatActivity {
 
     private ListView listaAlunos;
+    private SwipeRefreshLayout swipeListaAluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,18 @@ public class ListaAlunosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_alunos);
 
         listaAlunos = (ListView) super.findViewById(R.id.lista_alunos);
+
+        //SwipeRefreshLayout é o ícone pra dar refresh na página e atualizar os dados da lista,
+        //da mesma forma que há no facebook, quando puxa a tela pra baixo e aparece o ícone da seta circular girando
+        //é preciso colocar o swiperefresh no xml da página onde ele será usado
+        //é preciso colocar swipeListaAluno.setRefreshing(false); no callback do método chamado no onresponse, colocar tanto no sucesso qnt falha
+        swipeListaAluno = (SwipeRefreshLayout) findViewById(R.id.swipe_lista_aluno);
+        swipeListaAluno.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                CarregaListaAlunosServidor();
+            }
+        });
 
         alteraAluno(listaAlunos);
 
@@ -86,11 +100,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 AlunoDAO alunoDAO = new AlunoDAO(ListaAlunosActivity.this);
                 alunoDAO.SincronizaAlunosDoServidor(alunoSync.getAlunos());
                 CarregaLista();
+                swipeListaAluno.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<AlunoSync> call, Throwable t) {
                 Log.e("onFailure chamado", t.getMessage());
+                swipeListaAluno.setRefreshing(false);
             }
         });
     }
