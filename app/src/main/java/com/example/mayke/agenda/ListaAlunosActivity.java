@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.mayke.agenda.adapter.AlunosAdapter;
 import com.example.mayke.agenda.dao.AlunoDAO;
@@ -44,9 +45,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
         BtnNovoAlunoClick();
 
         //primeiro registra para o menu de contexto antes de criar o menu de contexto. listaAlunos é quem ativa o menu de contexto
+        //Menu de contexto é o que clica e segura em um item da lista
         registerForContextMenu(listaAlunos);
 
-        //carrega a lista de alunos do servidor, pra poder habilitar a edição dos alunos
+        //carrega a lista de alunos do servidor, pra poder habilitar a edição dos alunos.
+        // No onResume, outra requisição pra pegar as informações do aluno era feita antes mesmo de alterar o aluno
         CarregaListaAlunosServidor();
 
     }
@@ -165,10 +168,23 @@ public class ListaAlunosActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
-                dao.deleta(aluno);
+                Call<Void> call = new RetrofitInicializador().getAlunoService().deletaAluno(aluno.getId());
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
 
-                CarregaLista();
+                        AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
+                        dao.deleta(aluno);
+
+                        CarregaLista();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(ListaAlunosActivity.this,
+                                "Não foi possível excluir o aluno. Por favor, tente novamente.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 return false;
             }
