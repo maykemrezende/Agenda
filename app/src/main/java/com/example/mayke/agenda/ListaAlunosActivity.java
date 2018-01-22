@@ -46,6 +46,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
         //primeiro registra para o menu de contexto antes de criar o menu de contexto. listaAlunos é quem ativa o menu de contexto
         registerForContextMenu(listaAlunos);
 
+        //carrega a lista de alunos do servidor, pra poder habilitar a edição dos alunos
+        CarregaListaAlunosServidor();
+
     }
 
     private void alteraAluno(final ListView listaAlunos) {
@@ -67,8 +70,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         CarregaLista();
-
-        CarregaListaAlunosServidor();
 
         super.onResume();
     }

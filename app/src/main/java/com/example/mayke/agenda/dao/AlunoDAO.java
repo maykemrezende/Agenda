@@ -24,7 +24,7 @@ public class AlunoDAO extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE alunos (id INTEGER PRIMARY KEY, " +
+        String sql = "CREATE TABLE alunos (id CHAR(36) PRIMARY KEY, " +
                     "nome TEXT NOT NULL, endereco TEXT, " +
                     "telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT);";
         db.execSQL(sql);
@@ -167,7 +167,7 @@ public class AlunoDAO extends SQLiteOpenHelper{
         dados.put("telefone", aluno.getTelefone());
         dados.put("site", aluno.getSite());
         dados.put("nota", aluno.getNota());
-        dados.put("caminhoFoto", (aluno.getCaminhoFoto() == null) ? "a" : aluno.getCaminhoFoto());
+        dados.put("caminhoFoto", aluno.getCaminhoFoto());
 
         return dados;
     }
