@@ -27,7 +27,7 @@ public class RetrofitInicializador {
 
         this.retrofit = new Retrofit
                             .Builder()
-                            .baseUrl("http://192.168.0.104:8080/api/")
+                            .baseUrl("ip da máquina:8080/api/")
                             .addConverterFactory(JacksonConverterFactory.create())
                             .client(client.build())
                             .build();
