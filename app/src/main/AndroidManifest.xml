@@ -61,6 +61,11 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <!--a partir do android 8.0, é preciso definir qual o ícone será usado para as push notifications -->
+
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher" />
     </application>
 
 </manifest>
