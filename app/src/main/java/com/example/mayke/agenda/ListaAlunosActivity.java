@@ -21,8 +21,13 @@ import android.widget.Toast;
 import com.example.mayke.agenda.adapter.AlunosAdapter;
 import com.example.mayke.agenda.dao.AlunoDAO;
 import com.example.mayke.agenda.dto.AlunoSync;
+import com.example.mayke.agenda.events.AtualizarListaAlunoEvent;
 import com.example.mayke.agenda.modelo.Aluno;
 import com.example.mayke.agenda.retrofit.RetrofitInicializador;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -39,6 +44,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
+
+        EventBus eventBus = EventBus.getDefault();
+        eventBus.register(this);
 
         listaAlunos = (ListView) super.findViewById(R.id.lista_alunos);
 
@@ -68,20 +76,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     }
 
-    private void alteraAluno(final ListView listaAlunos) {
-        listaAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> lista, View item, int position, long idItem) {
-                Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(position);
-
-                Intent intentVaiProFormAlteracao = new Intent(ListaAlunosActivity.this, FormularioActivity.class);
-
-                //envia os dados para outra activity, pra enviar o objeto a classe precisa ter "implements serializable"
-                //putExtra envia informações não obrigatórias
-                intentVaiProFormAlteracao.putExtra("aluno", aluno);
-                startActivity(intentVaiProFormAlteracao);
-            }
-        });
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void atualizaListaAlunoEvent(AtualizarListaAlunoEvent event){
+        CarregaLista();
     }
 
     @Override
@@ -271,6 +268,21 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 startActivity(intentVaiProFormNovoAluno);
             }
         });
+    }
 
+    private void alteraAluno(final ListView listaAlunos) {
+        listaAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> lista, View item, int position, long idItem) {
+                Aluno aluno = (Aluno) listaAlunos.getItemAtPosition(position);
+
+                Intent intentVaiProFormAlteracao = new Intent(ListaAlunosActivity.this, FormularioActivity.class);
+
+                //envia os dados para outra activity, pra enviar o objeto a classe precisa ter "implements serializable"
+                //putExtra envia informações não obrigatórias
+                intentVaiProFormAlteracao.putExtra("aluno", aluno);
+                startActivity(intentVaiProFormAlteracao);
+            }
+        });
     }
 }
